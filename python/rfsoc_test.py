@@ -13,7 +13,8 @@ from file_utils import File_Utils
 
 
 def rfsoc_run(params):
-    
+    # Set the paramaters of the mode of the files, 
+    # including the downloading mode, the modification mode and the coverting mode.
     if params.mode=='server' and (params.update_rfsoc_files or params.modify_rfsoc_files):
         file_utils = File_Utils(params, scp_connect=params.update_rfsoc_files)
         changed_1 = False
@@ -26,7 +27,10 @@ def rfsoc_run(params):
             changed_2 = file_utils.modify_files()
         if params.update_rfsoc_files:
             changed_3 = file_utils.convert_files()
-
+        # In the mode changed_1, we download the updated files from the host server.
+        # In mode changed_2, we modify the files.
+        # In mode changed_3, we convert some files.
+        # When experiencing 3 modes above, we've made the modification on the parameters' file. Thus we need to re-run the script.
         if changed_1:
             print("Some files were updated from the Host server ...")
         if changed_2:
@@ -38,7 +42,7 @@ def rfsoc_run(params):
             return
 
 
-
+    
 
     signals_inst = Signal_Utils_Rfsoc(params)
     if params.save_parameters:
